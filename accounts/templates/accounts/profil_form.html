@@ -1,0 +1,67 @@
+{% extends "accounts/base.html" %}
+
+{% block content %}
+  <h2>Profil Form</h2>
+  <form action='/calendar/' method="POST" id="profilForm" data-lb-url="{% url 'ajax_load_lb' %}" data-an-url="{% url 'ajax_load_an' %}" data-grupa-url="{% url 'ajax_load_grupa' %}" novalidate>
+    {% csrf_token %}
+    <table>
+      {{ form.as_table }}
+    </table>
+    <button type="submit">Save</button>
+    <!--<a href="{% url 'register' %}">Nevermind</a>-->
+  </form>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    $("#id_specializare").change(function () {
+      var url = $("#profilForm").attr("data-lb-url");  // get the url of the `load_lb` view
+      var specializareId = $(this).val();  // get the selected country ID from the HTML input
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'specializare': specializareId       // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          $("#id_limba_predare").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+    });
+
+    $("#id_limba_predare").change(function () {
+      var url = $("#profilForm").attr("data-an-url");  // get the url of the `load_lb` view
+      var limbaPredareId = $(this).val();  // get the selected country ID from the HTML input
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'limba_predare': limbaPredareId       // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          $("#id_an").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+    });
+
+    $("#id_an").change(function () {
+      var url = $("#profilForm").attr("data-grupa-url");  // get the url of the `load_lb` view
+      var anId = $(this).val();  // get the selected country ID from the HTML input
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'an': anId       // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          $("#id_grupa").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+    });
+
+
+  </script>
+
+{% endblock %}

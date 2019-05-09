@@ -1,0 +1,19 @@
+{% extends "accounts/base.html" %}
+
+{% block content %}
+
+<h2>Login</h2>
+{% if form.errors %}
+ <p class="error">Introduceti un email sau o parola valida!</p>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+    <label for="email">Email:</label>
+    <input type="text" name="email" value="" id="email">
+    <label for="password">Password</label>
+    <input type="password" name="password" value="" id="password">
+    <button type="submit">Login</button>
+</form>
+
+{% endblock %}
