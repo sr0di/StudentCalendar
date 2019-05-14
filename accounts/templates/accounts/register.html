@@ -4,7 +4,7 @@
         <form method="POST">
             {% csrf_token%}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Join</legend>
+                <legend class="border-bottom mb-4">Creeaza cont</legend>
                 {{ form.as_p }}
             </fieldset>
             <div class="form-group">
@@ -13,7 +13,7 @@
         </form>
         <div class="border-top pt-3">
             <small class="text-muted">
-                Already have an account?<a class="ml-2" href="{% url 'login_view' %}">Sign In</a></small>
+                Ai deja un cont?<a class="ml-2" href="{% url 'accounts:login_view' %}">Login</a></small>
         </div>
     </div>
 

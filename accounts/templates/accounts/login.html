@@ -11,9 +11,13 @@
     {% csrf_token %}
     <label for="email">Email:</label>
     <input type="text" name="email" value="" id="email">
-    <label for="password">Password</label>
+    <label for="password">Parola</label>
     <input type="password" name="password" value="" id="password">
     <button type="submit">Login</button>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Nu ai cont?<a class="ml-2" href="{% url 'accounts:register' %}">Creeaza un cont</a></small>
+    </div>
 </form>
 
 {% endblock %}

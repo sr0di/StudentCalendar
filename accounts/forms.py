@@ -13,7 +13,7 @@ class UserRegisterForm(UserCreationForm):
 class ProfilForm(forms.ModelForm):
     class Meta:
         model = Profil
-        fields = ('specializare','limba_predare','an', 'grupa')
+        fields = ('specializare', 'limba_predare', 'an', 'grupa')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

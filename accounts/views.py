@@ -1,9 +1,9 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import UserRegisterForm, ProfilForm
 
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, DetailView
 from django.urls import reverse_lazy, reverse
 from .models import Profil, LimbaPredare, An, Grupa
 
@@ -16,7 +16,7 @@ def register(request):
             email = form.cleaned_data.get('email')
             messages.success(request, f'Account created for {email}!')
             profil = Profil.objects.filter(user_id=form.instance.id).first()
-            return redirect(reverse('profil_change', kwargs={'pk': profil.id}))
+            return redirect(reverse_lazy('accounts:profil_change', kwargs={'pk': profil.id}))
     else:
         form = UserRegisterForm()
     return render(request, 'accounts/register.html', {'form': form})
@@ -29,26 +29,22 @@ def login_view(request):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
-            return redirect('/calendar')
+            profil = Profil.objects.filter(user_id=user.id).first()
+            return redirect('cal:calendar', pk=profil.id)
         else:
             return redirect('/')
     return render(request, 'accounts/login.html')
 
 
-
-
+def logout_request(request):
+    logout(request)
+    messages.info(request, 'Ai iesit din cont!')
+    return redirect('accounts:login_view')
 
 '''
-class ProfileListView(ListView):
-    model = Profil
-    context_object_name = 'profiles'
-
-
-class ProfileCreateView(CreateView):
-    model = Profil
-    form_class = ProfilForm
-    # fields = ('specializare', 'limba_predare', 'an', 'grupa')
-    success_url = reverse_lazy('profil_changelist')
+class ProfileDetailView(DetailView):
+    template_name = 'accounts/profil_detail.html'
+    queryset = Profil.objects.all()
 '''
 
 
@@ -56,7 +52,11 @@ class ProfileUpdateView(UpdateView):
     model = Profil
     form_class = ProfilForm
     # fields = ('specializare', 'limba_predare', 'an', 'grupa')
-    success_url = reverse_lazy('planner')
+
+    def get_success_url(self, **kwargs):
+        print(self.object.user)
+        # return reverse_lazy('cal:calendar', args=(self.object.user.id,))
+        return reverse_lazy('accounts:login_view')
 
 
 def load_limba_predare(request):
