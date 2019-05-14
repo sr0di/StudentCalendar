@@ -3,6 +3,7 @@ from .constants import TipActivitateDisciplina
 
 
 class Repart(models.Model):
+    frecventa = models.IntegerField(default=0, choices=((0, 'saptamanal'), (1, 'saptamana 1'), (2, 'saptamana 2')))
     semestru = models.ForeignKey('Semestru', on_delete=models.CASCADE)
     disciplina = models.ForeignKey('Disciplina', on_delete=models.CASCADE)
     formatie = models.ForeignKey('Formatie', on_delete=models.CASCADE)
@@ -35,7 +36,7 @@ class Cadru(models.Model):
     cod = models.CharField(max_length=5)
 
     def __str__(self):
-        return self.cod
+        return self.nume
 
 
 class Sala(models.Model):
@@ -79,7 +80,7 @@ class Disciplina(models.Model):
     denr = models.CharField(max_length=120, null=False)
 
     def __str__(self):
-        return self.cod
+        return self.denr
 
 
 class Catedra(models.Model):
