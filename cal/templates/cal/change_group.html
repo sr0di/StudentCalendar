@@ -1,0 +1,18 @@
+{% extends 'homepage.html' %}
+
+{% block content %}
+
+{% if current_disc %}
+<h3>{{current_disc.disciplina.denr}}</h3>
+{% endif %}
+
+{% if discipline %}
+    {% for disciplina in discipline %}
+    <p>{{disciplina.formatie.componenta}}, {{disciplina.ora_i}}-{{disciplina.ora_s}}<a href="{% url 'cal:change_group' current_disc.id disciplina.id %}">Schimba</a></p>
+    {% endfor %}
+{% endif %}
+
+{% if error %}
+<p>{{error}}</p>
+{% endif %}
+{% endblock %}

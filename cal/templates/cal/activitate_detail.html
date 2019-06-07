@@ -1,1 +1,16 @@
-{% extends 'base.html' %}
+{% extends 'homepage.html' %}
+
+{% block content %}
+<h4> {{object.disciplina.disciplina}}</h4>
+{% if object.disciplina.tip_activitate == 'C' %}
+<p>CURS</p>
+{% elif object.disciplina.tip_activitate == 'S' %}
+<p>SEMINAR</p>
+{% else %}
+<p>LABORATOR</p>
+{% endif %}
+<p>Zi: {{object.disciplina.zi.denr}}</p>
+<p>Ora: {{object.disciplina.ora_i}}-{{object.disciplina.ora_s}}</p>
+<p>Sala: {{object.disciplina.sala}}</p>
+<p>Cadru: {{object.disciplina.cadru}}</p>
+{% endblock %}

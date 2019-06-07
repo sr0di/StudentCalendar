@@ -1,0 +1,25 @@
+{% extends 'homepage.html' %}
+
+{% block content %}
+
+{% if activitati %}
+    {% if error %}
+        <p>{{error}}</p>
+    {% endif %}
+    {% for activitate in activitati %}
+    <p>{{activitate.disciplina.disciplina.denr}}, {{activitate.disciplina.tip_activitate}}</p>
+    <p>
+            {% if activitate.hidden == True %}
+            <a class="btn btn-warning" href="{% url 'cal:hide' activitate.id %}">Afiseaza</a>
+            {% else %}
+            <a class="btn btn-danger" href="{% url 'cal:hide' activitate.id %}">Ascunde</a>
+            {% endif %}
+            {% if activitate.disciplina.tip_activitate == 'S' or activitate.disciplina.tip_activitate == 'L' %}
+            <a class="btn btn-info" href="{% url 'cal:list_group' activitate.disciplina.id%}">Adauga de la alta grupa</a>
+            {% endif %}
+        </p>
+    {% endfor %}
+{% endif %}
+
+
+{% endblock %}

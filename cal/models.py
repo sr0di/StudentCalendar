@@ -2,6 +2,7 @@ from django.db import models
 from .constants import TipActivitateDisciplina
 
 
+
 class Repart(models.Model):
     frecventa = models.IntegerField(default=0, choices=((0, 'saptamanal'), (1, 'saptamana 1'), (2, 'saptamana 2')))
     semestru = models.ForeignKey('Semestru', on_delete=models.CASCADE)
@@ -25,6 +26,28 @@ class Semestru(models.Model):
 
     def __str__(self):
         return str(self.numar)+', '+str(self.tip_an)
+
+
+class StructuraSemestru(models.Model):
+    semestru = models.ForeignKey('Semestru', on_delete=models.CASCADE, related_name="structuri_semestru")
+    limbi_predare = models.ManyToManyField('accounts.LimbaPredare')
+    descriere = models.CharField(max_length=100, blank=False)
+
+    def get_limbi_predare(self):
+        return "\n".join([lb.denr for lb in self.limbi_predare.all()])
+
+    def __str__(self):
+        return self.descriere
+
+
+class ActivitateNedidactica(models.Model):
+    structura = models.ForeignKey('StructuraSemestru', null=True, on_delete=models.CASCADE, related_name="activitati_nedidactice")
+    data_inceput = models.DateField()
+    data_sfarsit = models.DateField()
+    descriere = models.CharField(max_length=50, blank=False)
+
+    def __str__(self):
+        return self.descriere
 
 
 class Cadru(models.Model):
