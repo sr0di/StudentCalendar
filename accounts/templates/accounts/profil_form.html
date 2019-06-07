@@ -1,7 +1,8 @@
-{% extends "accounts/base.html" %}
+{% extends 'homepage.html' %}
 
 {% block content %}
-  <h2>Profil Form</h2>
+  <h3>Profil Form</h3>
+  <p>Momentan doar pentru Specializarea Matematica, Limba Romana, Anul 1 si 2 sunt adaugate date in baza de date</p>
   <form method="POST" id="profilForm" data-lb-url="{% url 'accounts:ajax_load_lb' %}" data-an-url="{% url 'accounts:ajax_load_an' %}" data-grupa-url="{% url 'accounts:ajax_load_grupa' %}" novalidate>
     {% csrf_token %}
     <table>
@@ -9,13 +10,20 @@
     </table>
     <button type="submit">Save</button>
   </form>
+  {% if user %}
+    <div class="border-top pt-3">
 
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+      <a class="btn btn-danger" href="{% url 'accounts:delete_profil'%}">Sterge cont</a>
+    </div>
+
+  {% endif %}
+{% endblock %}
+
+  {% block script_form %}
   <script>
     $("#id_specializare").change(function () {
       var url = $("#profilForm").attr("data-lb-url");
       var specializareId = $(this).val();
-
       $.ajax({
         url: url,
         data: {
@@ -62,5 +70,4 @@
 
 
   </script>
-
 {% endblock %}

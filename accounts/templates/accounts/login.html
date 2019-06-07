@@ -1,11 +1,11 @@
-{% extends "accounts/base.html" %}
+{% extends 'homepage.html' %}
+{% block brand %}
 
+<h6>Agenda Student</h6>
+{% endblock %}
 {% block content %}
 
 <h2>Login</h2>
-{% if form.errors %}
- <p class="error">Introduceti un email sau o parola valida!</p>
-{% endif %}
 
 <form method="POST">
     {% csrf_token %}
@@ -14,6 +14,11 @@
     <label for="password">Parola</label>
     <input type="password" name="password" value="" id="password">
     <button type="submit">Login</button>
+    {% if error %}
+    <div class="alert alert-warning" role="alert">{{error}}</div>
+    {% elif deletion_massage %}
+    <div class="alert alert-warning" role="alert">{{deletion_massage}}</div>
+    {% endif %}
     <div class="border-top pt-3">
         <small class="text-muted">
             Nu ai cont?<a class="ml-2" href="{% url 'accounts:register' %}">Creeaza un cont</a></small>

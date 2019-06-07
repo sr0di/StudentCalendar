@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from .models import MyUser, Specializare, An, LimbaPredare, Grupa, Profil
+from .models import MyUser, Specializare, An, LimbaPredare, Grupa, Profil, Activitate
 
 
 class ProfilAdmin(admin.ModelAdmin):
@@ -97,8 +97,13 @@ class UserAdmin(BaseUserAdmin):
     search_fields = ('email',)
     ordering = ('email',)
     filter_horizontal = ()
+
+
+class ActivitateAdmin(admin.ModelAdmin):
+    list_display = ['id', 'profil', 'disciplina', 'hidden']
     
 
+admin.site.register(Activitate, ActivitateAdmin)
 admin.site.register(Profil, ProfilAdmin)
 admin.site.register(Specializare, SpecializareAdmin)
 admin.site.register(An, AnAdmin)

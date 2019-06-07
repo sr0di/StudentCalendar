@@ -20,17 +20,18 @@ class ProfilForm(forms.ModelForm):
         self.fields['limba_predare'].queryset = LimbaPredare.objects.none()
         self.fields['an'].queryset = An.objects.none()
         self.fields['grupa'].queryset = Grupa.objects.none()
-
+        print(self.instance.pk)
         # SPECIALIZARE
         if 'specializare' in self.data:
+            print(self.data)
             try:
                 specializare_id = int(self.data.get('specializare'))
                 self.fields['limba_predare'].queryset = LimbaPredare.objects.filter(specializare_id=specializare_id).order_by('denr')
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty City queryset
         elif self.instance.pk:
-            if self.data.get('specializare') is not None:
-                self.fields['limba_predare'].queryset = self.instance.specializare.limba_predare_set.all().order_by('denr')
+            if self.instance.specializare is not None:
+                self.fields['limba_predare'].queryset = self.instance.specializare.limbi_predare.all().order_by('denr')
 
         # LIMBA PREDARE
         if 'limba_predare' in self.data:
@@ -40,8 +41,8 @@ class ProfilForm(forms.ModelForm):
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty City queryset
         elif self.instance.pk:
-            if self.data.get('limba_predare') is not None:
-                self.fields['an'].queryset = self.instance.limba_predare.an_set.order_by('denr')
+            if self.instance.limba_predare is not None:
+                self.fields['an'].queryset = self.instance.limba_predare.ani.all().order_by('denr')
 
         # AN
         if 'an' in self.data:
@@ -51,17 +52,5 @@ class ProfilForm(forms.ModelForm):
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty City queryset
         elif self.instance.pk:
-            if self.data.get('an') is not None:
-                self.fields['grupa'].queryset = self.instance.an.grupa_set.order_by('denr')
-            '''
-        # GRUPA
-        if 'specializare' in self.data:
-            try:
-                specializare_id = int(self.data.get('specializare'))
-                self.fields['limba_predare'].queryset = LimbaPredare.objects.filter(
-                    specializare_id=specializare_id).order_by('denr')
-            except (ValueError, TypeError):
-                pass  # invalid input from the client; ignore and fallback to empty City queryset
-        elif self.instance.pk:
-            self.fields['limba_predare'].queryset = self.instance.specializare.limba_predare_set.order_by('denr')
-            '''
+            if self.instance.an is not None:
+                self.fields['grupa'].queryset = self.instance.an.grupe.all().order_by('denr')

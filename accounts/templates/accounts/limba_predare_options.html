@@ -1,4 +1,6 @@
+
 <option value="">---------</option>
+{% if limbi_predare
 {% for limba_predare in limbi_predare %}
 <option value="{{ limba_predare.pk }}">{{ limba_predare.denr }}</option>
 {% endfor %}
