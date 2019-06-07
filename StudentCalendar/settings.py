@@ -23,10 +23,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '23mm6%tl5d43fgvh0y_9v2*pvp+_hyvc3cyg4*u-=fu%%)7qs%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
+LOGIN_URL = '/accounts/login/'
 
 # Application definition
 
@@ -84,6 +84,8 @@ DATABASES = {
 
 AUTH_USER_MODEL = 'accounts.MyUser'
 
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 AUTHENTICATION_BACKENDS = (
         'django.contrib.auth.backends.RemoteUserBackend',
         'django.contrib.auth.backends.ModelBackend',
@@ -125,3 +127,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+MEDIA_URL = "/media/"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
